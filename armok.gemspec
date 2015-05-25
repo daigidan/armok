@@ -15,7 +15,7 @@ require 'armok/version'
 Gem::Specification.new do |spec|
   spec.name          = 'armok'
   spec.version       = Armok::VERSION
-  spec.author        = 'daigidan'
+  spec.author        = 'Sean Evans'
   spec.email         = 'daigidan@gmail.com'
   spec.summary       = 'A small library for working with the raw files of Dwarf Fortress.'
   spec.description   = <<-EOF

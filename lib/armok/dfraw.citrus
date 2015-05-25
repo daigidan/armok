@@ -1,0 +1,67 @@
+grammar DFRaw
+
+  rule raw_file
+    (file_name_line declaration definition*) <Armok::Parser::File>
+  end
+
+  rule whitespace
+    [ \t\n\r]*
+  end
+
+  rule comment
+    [^\[]*
+  end
+
+  rule name
+    [a-zA-Z_]+
+  end
+
+  rule string
+    [a-zA-Z 0-9]+
+  end
+
+  rule integer
+    [0-9]+
+  end
+
+  rule rgb
+    integer ":" integer ":" integer
+  end
+
+  rule value
+    rgb | integer | string
+  end
+
+  rule attribute
+    ("[" name (":" value)* "]") <Armok::Parser::Attribute>
+  end
+
+  rule attribute_line
+    comment attribute? comment
+  end
+
+  rule attributes
+    attribute_line*
+  end
+
+  rule file_name_line
+    name whitespace
+  end
+
+  rule type
+    name
+  end
+
+  rule id
+    name
+  end
+
+  rule declaration
+    "[OBJECT:" type "]" whitespace
+  end
+
+  rule definition
+    (comment "[" type ":" id "]" whitespace attributes whitespace) <Armok::Parser::Object>
+  end
+
+end
