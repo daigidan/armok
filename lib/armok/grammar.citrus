@@ -1,7 +1,7 @@
-grammar DFRaw
+grammar Armok::Parser::Grammar
 
-  rule raw_file
-    (name declaration tokens) <Armok::Parser::File>
+  rule file
+    (name declaration token+) <Armok::Parser::File>
   end
 
   rule name
@@ -10,10 +10,6 @@ grammar DFRaw
 
   rule declaration
     space "[OBJECT:" name "]" space
-  end
-
-  rule tokens
-    space token+ space
   end
 
   rule token

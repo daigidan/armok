@@ -10,7 +10,7 @@ module Extensions
     end
 
     def tokens
-      capture(:tokens).captures(:token)
+      captures(:token)
     end
 
     def name

@@ -5,15 +5,14 @@ require 'parser_extensions'
 module Armok
   class Parser
     include Extensions
-    Citrus.require('dfraw') # load grammar and its namespace
+    Citrus.require('grammar') # load grammar and its namespace
 
     def parse(s)
-      DFRaw.parse(s)
+      Armok::Parser::Grammar.parse(s)
     end
 
     def parse_file(filename)
-      DFRaw.parse_file(filename)
+      Armok::Parser::Grammar.parse_file(filename)
     end
-
   end
 end
