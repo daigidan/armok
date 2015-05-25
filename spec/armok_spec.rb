@@ -76,34 +76,30 @@ EOF
 
   parser = Armok::Parser.new
   o = parser.parse(s)
-#  o1 = parser.parse(s1)
+  o1 = parser.parse(s1)
 
-  it 'parses embedded filename' do
+  it 'gets embedded filename' do
     expect(o.name).to eq('item_armor')
   end
 
-  it 'parses object type' do
+  it 'gets object type' do
     expect(o.type).to eq('ITEM')
   end
 
-  it 'parses definitions' do
-    expect(o.definitions.length).to eq(2)
+  it 'gets token list' do
+    expect(o.tokens.length).to eq(26)
   end
 
-  it 'parses attributes' do
-    expect(o.definitions[0].attributes[0].to_s).to eq('NAME:breastplate:breastplates')
+  it 'gets tokens' do
+    expect(o.tokens[1].to_s).to eq('NAME:breastplate:breastplates')
   end
 
-  it 'parses attributes with multiple values' do
-    expect(o.definitions[0].attributes[0].values.length).to eq(2)
+  it 'gets tokens with multiple values' do
+    expect(o.tokens[1].values.length).to eq(2)
   end
 
-  it 'recreates input' do
-    expect(o.to_s).to eq(s)
+  it 'ignores comments' do
+    expect(o1.tokens[1].to_s).to eq('ADD_MATERIAL:SKIN:SKIN_TEMPLATE')
   end
-
-#  it 'parses definitions with comments' do
-#    expect(p1.to_s).to eq(s1)
-#  end
 
 end

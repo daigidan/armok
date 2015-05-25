@@ -5,29 +5,24 @@ module Extensions
   module File
     def to_s
       s = "#{name}\n\n[OBJECT:#{type}]\n"
-      definitions.each {|d|
-        s += "\n[#{d.subtype}:#{d.id}]\n"
-        d.attributes.each {|a|
-          s += "[#{a.to_s}]\n"
-        }
-      }
+      tokens.map {|t| s += "\n[#{t.to_s}]" }
       return s
     end
 
-    def definitions
-      captures(:definition)
+    def tokens
+      capture(:tokens).captures(:token)
     end
 
     def name
-      capture(:file_name_line).capture(:name)
+      capture(:name)
     end
 
     def type
-      capture(:declaration).capture(:type)
+      capture(:declaration).capture(:name)
     end
   end
 
-  module Attribute
+  module Token
     def to_s
       "#{key}#{values_to_s}"
     end
@@ -49,19 +44,4 @@ module Extensions
     end
   end
 
-  module Object
-    def attributes
-      capture(:attributes).captures(:attribute_line).map {|a|
-        a.capture(:attribute)
-      }
-    end
-
-    def subtype
-      capture(:type)
-    end
-
-    def id
-      capture(:id)
-    end
-  end
 end
