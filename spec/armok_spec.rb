@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Armok do
+
+  it 'has a version number' do
+    expect(Armok::VERSION).not_to be nil
+  end
+
+end
+
+describe Armok::Parser do
   s = <<EOF
 item_armor
 
@@ -37,23 +45,28 @@ EOF
 
   p = Armok::Parser.new(s)
 
-  it 'has a version number' do
-    expect(Armok::VERSION).not_to be nil
-  end
-
-  it 'matches embedded filename' do
+  it 'parses embedded filename' do
     expect(p.name).to eq('item_armor')
   end
 
-  it 'matches object type' do
+  it 'parses object type' do
     expect(p.type).to eq('ITEM')
   end
 
-  it 'matches definitions' do
+  it 'parses definitions' do
     expect(p.definitions.length).to eq(2)
+  end
+
+  it 'parses attributes' do
+    expect(p.definitions[0].attributes[0].to_s).to eq('NAME:breastplate:breastplates')
+  end
+
+  it 'parses attributes with multiple values' do
+    expect(p.definitions[0].attributes[0].values.length).to eq(2)
   end
 
   it 'recreates input' do
     expect(p.to_s).to eq(s)
   end
+
 end
