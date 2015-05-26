@@ -9,8 +9,8 @@ module Extensions
       return s
     end
 
-    def tokens
-      captures(:token)
+    def definitions
+      captures(:definition)
     end
 
     def name
@@ -18,7 +18,21 @@ module Extensions
     end
 
     def type
-      capture(:declaration).capture(:name)
+      capture(:declaration).capture(:value)
+    end
+  end
+
+  module Definition
+    def type
+      capture(:key)
+    end
+
+    def id
+      capture(:value)
+    end
+
+    def tokens
+      captures(:token)
     end
   end
 
@@ -28,7 +42,7 @@ module Extensions
     end
 
     def key
-      capture(:name).value
+      capture(:key)
     end
 
     def values

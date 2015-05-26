@@ -86,20 +86,27 @@ EOF
     expect(o.type).to eq('ITEM')
   end
 
-  it 'gets token list' do
-    expect(o.tokens.length).to eq(26)
+  it 'gets definitions list' do
+    expect(o.definitions.length).to eq(2)
+    expect(o1.definitions.length).to eq(1)
   end
 
   it 'gets tokens' do
-    expect(o.tokens[1].to_s).to eq('NAME:breastplate:breastplates')
+    expect(o.definitions[0].tokens[0].to_s).to eq('NAME:breastplate:breastplates')
   end
 
   it 'gets tokens with multiple values' do
-    expect(o.tokens[1].values.length).to eq(2)
+    expect(o.definitions[0].tokens[0].values.length).to eq(2)
   end
 
   it 'ignores comments' do
-    expect(o1.tokens[1].to_s).to eq('ADD_MATERIAL:SKIN:SKIN_TEMPLATE')
+    expect(o1.definitions[0].tokens[1].to_s).to eq('ADD_MATERIAL:FAT:FAT_TEMPLATE')
+  end
+
+  it 'strips invalid UTF-8 bytes' do
+    invalid = "hello_world\n\n[OBJECT:hello]\n\n[SOME\255:VALUE]\n[K:V]".force_encoding('UTF-8')
+    valid = "hello_world\n\n[OBJECT:hello]\n\n[SOME:VALUE]\n[K:V]".force_encoding('UTF-8')
+    expect(parser.parse(invalid)).to eq(valid)
   end
 
 end

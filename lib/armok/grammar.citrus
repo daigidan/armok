@@ -1,7 +1,7 @@
 grammar Armok::Parser::Grammar
 
   rule file
-    (name declaration token+) <Armok::Parser::File>
+    (name declaration definition+ new_line?) <Armok::Parser::File>
   end
 
   rule name
@@ -9,31 +9,39 @@ grammar Armok::Parser::Grammar
   end
 
   rule declaration
-    space "[OBJECT:" name "]" space
+    blank_line "[OBJECT:" value "]"
+  end
+
+  rule definition
+    (blank_line "[" key ":" value "]" (token | comment)+) <Armok::Parser::Definition>
+  end    
+
+  rule comment
+    new_line space+
   end
 
   rule token
-    (space "[" name (":" value)* "]" space) <Armok::Parser::Token>
+    (new_line space* ("[" key (":" value)* "]")+ space*) <Armok::Parser::Token>
+  end
+
+  rule new_line
+    "\r"? "\n"
+  end
+
+  rule blank_line
+    new_line new_line
   end
 
   rule space
-    [^\[]*
+    [^\r\n\[]
+  end
+
+  rule key
+    [^\:\]]+
   end
 
   rule value
-    rgb | integer | string
-  end
-
-  rule rgb
-    integer ":" integer ":" integer
-  end
-
-  rule integer
-    [0-9]+
-  end
-
-  rule string
-    [a-zA-Z 0-9_]+
+    [^\:\]]+
   end
 
 end
