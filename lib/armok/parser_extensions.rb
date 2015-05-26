@@ -9,52 +9,44 @@ module Extensions
       return s
     end
 
-    def definitions
-      captures(:definition)
+    def defs
+      Hash[captures(:definition).map {|d| [d.id, d.tokens]}]
     end
 
     def name
-      capture(:name)
+      capture(:name).value
     end
 
     def type
-      capture(:declaration).capture(:value)
+      capture(:declaration).capture(:value).value
     end
   end
 
   module Definition
     def type
-      capture(:key)
+      capture(:key).value
     end
 
     def id
-      capture(:value)
+      capture(:value).value
     end
 
     def tokens
-      captures(:token)
+      Hash[captures(:token).map {|t| [t.key, t.to_s => t.values]}]
     end
   end
 
   module Token
     def to_s
-      "#{key}#{values_to_s}"
+      "#{key}#{values.map {|v| ':'+v }.join}"
     end
 
     def key
-      capture(:key)
+      capture(:key).value
     end
 
     def values
-      captures(:value)
-    end
-
-    def values_to_s
-      values.map { |v| ':' + v }.join
-    end
-
-    def value
-      captures(:value)[0]
+      captures(:value).map {|v| v.value }
     end
   end
 

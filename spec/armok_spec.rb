@@ -87,20 +87,32 @@ EOF
   end
 
   it 'gets definitions list' do
-    expect(o.definitions.length).to eq(2)
-    expect(o1.definitions.length).to eq(1)
+    expect(o.defs).to be_a(Hash)
+    expect(o1.defs).to be_a(Hash)
+  end
+
+  it 'gets definitions' do
+    expect(o.defs['ITEM_ARMOR_BREASTPLATE']).to be_a(Hash)
   end
 
   it 'gets tokens' do
-    expect(o.definitions[0].tokens[0].to_s).to eq('NAME:breastplate:breastplates')
+    expect(o.defs['ITEM_ARMOR_BREASTPLATE']['NAME']).to be_a(Hash)
+  end
+
+  it 'gets token values' do
+    expect(
+      o.defs['ITEM_ARMOR_BREASTPLATE']['NAME']['NAME:breastplate:breastplates'][0]
+    ).to eq('breastplate')
   end
 
   it 'gets tokens with multiple values' do
-    expect(o.definitions[0].tokens[0].values.length).to eq(2)
+    expect(
+      o.defs['ITEM_ARMOR_BREASTPLATE']['NAME']['NAME:breastplate:breastplates'].length
+    ).to eq(2)
   end
 
   it 'ignores comments' do
-    expect(o1.definitions[0].tokens[1].to_s).to eq('ADD_MATERIAL:FAT:FAT_TEMPLATE')
+    expect(o1.defs.length).to eq(1)
   end
 
   it 'strips invalid UTF-8 bytes' do
