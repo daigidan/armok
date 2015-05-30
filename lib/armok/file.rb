@@ -6,6 +6,10 @@ module Armok
       parse(s) unless s.empty?
     end
 
+    def read(filename)
+      parse(IO.binread(filename))
+    end
+
     def parse(s)
       # force re-encoding to strip invalid UTF-8 bytes
       s.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => '')
