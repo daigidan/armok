@@ -1,21 +1,22 @@
 module Armok
   class GodOfBlood
-    attr_reader :d
+    attr_reader :d, :errors
 
     def initialize(raws_dir=nil)
       @raws_dir = raws_dir
-      @parser = Armok::Parser.new
+      @file = Armok::File.new
       @d = {}
-      control(raws_dir) if raws_dir
+      @errors = []
+      shape(raws_dir) if raws_dir
     end
 
-    def control(raws_dir)
+    def shape(raws_dir)
       @raws_dir = raws_dir
       Dir.glob("#{raws_dir}/*.txt").each {|f|
         begin
-          f = parse_file(f)
-        rescue Citrus::ParseError => e
-          puts e.message
+          f = @file.parse(f)
+        rescue Armok::Error => e
+          @errors << "##{f}: #{e.message}"
           next
         end
 
@@ -27,12 +28,9 @@ module Armok
       }
     end
 
-    def parse(s)
-      @parser.parse(s)
+    def parse(filename)
+      @file.read(Kernel::File.read(filename))
     end
 
-    def parse_file(f)
-      parse(File.read(f))
-    end
   end
 end
