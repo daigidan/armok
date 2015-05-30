@@ -5,7 +5,7 @@ module Armok
   LB = '\['
   RB = '\]'
   COLON = ':'
-  NEWLINE = '\n'
+  NEWLINE = "\n"
   BLANK_LINE = NEWLINE*2
   FILENAME = '([a-z_]+)'
   TYPE = "#{SPACE}#{LB}OBJECT:#{TAG}#{RB}"

@@ -20,7 +20,7 @@ module Armok
     end
 
     def to_s
-      "#{@filename}\n\n[OBJECT:#{@type}]\n\n#{@entities.to_s}"
+      "#{@filename}#{BLANK_LINE}[OBJECT:#{@type}]#{BLANK_LINE}#{@entities.to_s}"
     end
 
     def each
