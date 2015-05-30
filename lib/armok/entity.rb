@@ -16,7 +16,7 @@ module Armok
     end
 
     def to_s
-      "[#{subtype}:#{id}]\n#{tokens.join('\n')}"
+      "[#{subtype}:#{id}]#{NEWLINE}#{tokens.join(NEWLINE)}"
     end
 
   end
