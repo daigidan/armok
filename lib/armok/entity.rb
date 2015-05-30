@@ -13,6 +13,7 @@ module Armok
       s.scan(/#{SPACE}#{LB}#{TOKEN}#{RB}#{SPACE}/m).each {|t|
         @tokens << Token.new(t[0])
       }
+      self
     end
 
     def to_s

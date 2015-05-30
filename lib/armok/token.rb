@@ -3,7 +3,6 @@ module Armok
     attr_accessor :key, :values
 
     def initialize(s='')
-      @key = ''
       @values = Array.new
       parse(s) unless s.empty?
     end
@@ -11,6 +10,7 @@ module Armok
     def parse(s)
       @values = s.split(COLON)
       @key = @values.shift
+      self
     end
 
     def to_s

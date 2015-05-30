@@ -29,6 +29,7 @@ module Armok
         # these are the droids we're looking for
         @entities << Entity.new(id, subtype, tokens[0])
       }
+      self
     end
 
     def to_s

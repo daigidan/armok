@@ -15,7 +15,7 @@ module Armok
       @entities = Entities.new(s)
 
       file = File.new
-      file.filename, file.type, file.entities = @filename, @type, @entities
+      file.filename, file.type, file.entities = self.filename, self.type, self.entities
       return file
     end
 
