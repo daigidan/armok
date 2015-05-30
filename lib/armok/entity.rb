@@ -10,7 +10,7 @@ module Armok
     end
 
     def parse(s)
-      s.scan(/#{SPACE}#{LB}([^\]]+)#{RB}#{SPACE}/m).each {|t|
+      s.scan(/#{SPACE}#{LB}#{TOKEN}#{RB}#{SPACE}/m).each {|t|
         @tokens << Token.new(t[0])
       }
     end

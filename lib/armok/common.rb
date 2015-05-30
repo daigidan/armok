@@ -10,6 +10,7 @@ module Armok
   FILENAME = '([a-z_]+)'
   TYPE = "#{SPACE}#{LB}OBJECT:#{TAG}#{RB}"
   ENTITIES = '(.*)'
+  TOKEN = '([^\]]+)'
 
   class Match
     attr_accessor :captures
