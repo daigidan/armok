@@ -22,10 +22,7 @@ module Armok
     end
 
     def parse(s)
-      # force re-encoding to strip invalid UTF-8 bytes
-      s.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => '')
-      s.encode!('UTF-8')
-
+      strip_invalid_utf8_bytes(s)
       @name, @comment, @type, s = Match.new(s, FILE).captures
       @items = Entities.new(s)
       File.new('', @filename, @name, @comment, @type, @items)
@@ -33,6 +30,12 @@ module Armok
 
     def to_s
       "#{@name + @comment}[#{OBJECT + @type}]#{@items}"
+    end
+
+    def strip_invalid_utf8_bytes(s)
+      # force re-encoding to strip invalid UTF-8 bytes
+      s.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => '')
+      s.encode!('UTF-8')
     end
 
   end
