@@ -1,12 +1,14 @@
 require 'armok/common'
+require 'armok/collection'
 require 'armok/file'
 
 module Armok
   class Dir
-    attr_accessor :dir, :files
+    include Collection
+    attr_accessor :dir, :items
 
     def initialize(dir='')
-      @files  = Array.new
+      @items  = Array.new
       read(dir) unless dir.empty?
     end
 
@@ -15,32 +17,13 @@ module Armok
       # break out of namespace below for core modules
       ::Dir.glob(::File.join(@dir, '*.txt')).each {|filename|
         begin
-          @files << File.new.read(filename)
+          @items << File.new.read(filename)
         rescue Armok::ParseError => e
+          # prepend filename and pass the buck
           raise(Armok::ParseError, "#{filename}: #{e.message}")
         end
       }
       self
-    end
-
-    def each
-      @files.each {|file| yield file }
-    end
-
-    def [](i)
-      @files[i]
-    end
-
-    def []=(i, value)
-      @files[i] = value
-    end
-
-    def length
-      @files.length
-    end
-
-    def empty?()
-      @files.length == 0
     end
 
   end

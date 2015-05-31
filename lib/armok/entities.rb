@@ -1,12 +1,14 @@
 require 'armok/common'
+require 'armok/collection'
 require 'armok/entity'
 
 module Armok
   class Entities
-    attr_accessor :entities, :subtype, :comment
+    include Collection
+    attr_accessor :comment, :subtype, :items
 
     def initialize(s='')
-      @entities = Array.new
+      @items = Array.new
       parse(s) unless s.empty?
     end
 
@@ -30,41 +32,13 @@ module Armok
         tokens = tokens[1].split(/#{subtype_re}/)
 
         # these are the droids we're looking for
-        @entities << Entity.new(id, @subtype, tokens[0])
+        @items << Entity.new(id, @subtype, tokens[0])
       }
       self
     end
 
     def to_s
-      "#{@comment}#{@entities.join}"
-    end
-
-    def each
-      @entities.each {|entity| yield entity }
-    end
-
-    def [](i)
-      @entities[i]
-    end
-
-    def []=(i, value)
-      @entities[i] = value
-    end
-
-    def <<(i)
-      @entities << i
-    end
-
-    def +(i)
-      @entities << i
-    end
-
-    def length
-      @entities.length
-    end
-
-    def empty?()
-      @entities.length == 0
+      "#{@comment}#{@items.join}"
     end
 
   end

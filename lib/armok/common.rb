@@ -7,7 +7,7 @@ module Armok
   COLON = ':'
   NEWLINE = "\n"
   BLANK_LINE = NEWLINE*2
-  FILENAME = '([a-z_]+)'
+  FILENAME = '([a-zA-Z0-9_]+)'
   OBJECT = 'OBJECT:'
   TYPE = "#{SPACE}#{LB}#{OBJECT}#{TAG}#{RB}"
   ENTITIES = '(.*)'

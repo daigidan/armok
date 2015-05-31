@@ -1,16 +1,19 @@
 require 'armok/common'
+require 'armok/collection'
 require 'armok/entities'
-require 'pp'
 
 module Armok
   class File
-    attr_accessor :filename, :comment, :type, :entities
+    include Collection
+    attr_accessor :filename, :name, :comment, :type, :items
 
     def initialize(s='')
       parse(s) unless s.empty?
     end
 
     def read(filename)
+      puts filename
+      @filename = filename
       parse(::IO.binread(filename))
     end
 
@@ -19,39 +22,20 @@ module Armok
       s.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => '')
       s.encode!('UTF-8')
 
-      @filename, @comment, @type, s = Match.new(s, FILE).captures
-      @entities = Entities.new(s)
+      @name, @comment, @type, s = Match.new(s, FILE).captures
+      @items = Entities.new(s)
 
       file = File.new
       file.filename,
+      file.name,
       file.comment,
       file.type,
-      file.entities = self.filename, self.comment, self.type, self.entities
+      file.items = self.filename, self.name, self.comment, self.type, self.items
       return file
     end
 
     def to_s
-      "#{@filename + @comment}[#{OBJECT + @type}]#{@entities}"
-    end
-
-    def each
-      @entities.each {|entity| yield entity }
-    end
-
-    def [](i)
-      @entities[i]
-    end
-
-    def []=(i, value)
-      @entities[i] = value
-    end
-
-    def length
-      @entities.length
-    end
-
-    def empty?()
-      @entities.length == 0
+      "#{@name + @comment}[#{OBJECT + @type}]#{@items}"
     end
 
   end
