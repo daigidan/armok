@@ -180,7 +180,7 @@ EOF
   o3 = p.parse(s3)
 
   it 'gets embedded filename' do
-    expect(o.filename).to eq('item_armor')
+    expect(o.name).to eq('item_armor')
   end
 
   it 'gets object type' do
@@ -188,10 +188,10 @@ EOF
   end
 
   it 'gets entities' do
-    expect(o.entities).to be_an(Armok::Entities)
+    expect(o.items).to be_an(Armok::Entities)
     expect(o.empty?).to eq(false)
     expect(o.length).to eq(2)
-    expect(o1.entities).to be_an(Armok::Entities)
+    expect(o1.items).to be_an(Armok::Entities)
     expect(o1.empty?).to eq(false)
     expect(o1.length).to eq(1)
   end
@@ -201,16 +201,16 @@ EOF
   end
 
   it 'gets tokens' do
-    expect(o[0].tokens).to be_an(Array)
+    expect(o[0].items).to be_an(Array)
   end
 
   it 'gets token key and values' do
-    expect(o[0].tokens[0].key).to eq('NAME')
-    expect(o[0].tokens[0].values[0]).to eq('breastplate')
+    expect(o[0].items[0].key).to eq('NAME')
+    expect(o[0].items[0].values[0]).to eq('breastplate')
   end
 
   it 'gets tokens with multiple values' do
-    expect(o[0].tokens[0].values.length).to eq(2)
+    expect(o[0].items[0].values.length).to eq(2)
   end
 
   it 'ignores comments' do

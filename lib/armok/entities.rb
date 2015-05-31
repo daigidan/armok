@@ -1,6 +1,9 @@
+require 'armok/common'
+require 'armok/entity'
+
 module Armok
   class Entities
-    include Enumerable
+    attr_accessor :entities, :subtype, :comment
 
     def initialize(s='')
       @entities = Array.new
@@ -9,8 +12,8 @@ module Armok
 
     def parse(s)
       # sniff subtype for use as an entity delimeter
-      subtype = Match.new(s, /^#{SPACE}#{LB}#{TAG}:/m).captures[0]
-      subtype_re = "#{LB}#{subtype}:"
+      @comment, @subtype = Match.new(s, SUBTYPE).captures
+      subtype_re = "#{LB}#{@subtype}:"
 
       # find each entity's id
       s.scan(/#{subtype_re}#{TAG}#{RB}/m).flatten.each {|id|
@@ -27,13 +30,13 @@ module Armok
         tokens = tokens[1].split(/#{subtype_re}/)
 
         # these are the droids we're looking for
-        @entities << Entity.new(id, subtype, tokens[0])
+        @entities << Entity.new(id, @subtype, tokens[0])
       }
       self
     end
 
     def to_s
-      @entities.join(BLANK_LINE)
+      "#{@comment}#{@entities.join}"
     end
 
     def each

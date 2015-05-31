@@ -1,3 +1,6 @@
+require 'armok/common'
+require 'armok/token'
+
 module Armok
   class Entity
     attr_accessor :id, :subtype, :tokens
@@ -10,14 +13,34 @@ module Armok
     end
 
     def parse(s)
-      s.scan(/#{SPACE}#{LB}#{TOKEN}#{RB}#{SPACE}/m).each {|t|
-        @tokens << Token.new(t[0])
+      s.scan(TOKENS).each {|pre,s,post|
+        @tokens << Token.new(s, pre, post)
       }
       self
     end
 
     def to_s
-      "[#{subtype}:#{id}]#{NEWLINE}#{tokens.join(NEWLINE)}"
+      "[#{subtype}:#{id}]#{tokens.join}"
+    end
+
+    def each
+      @tokens.each {|token| yield token }
+    end
+
+    def [](i)
+      @tokens[i]
+    end
+
+    def []=(i, value)
+      @tokens[i] = value
+    end
+
+    def length
+      @tokens.length
+    end
+
+    def empty?()
+      @tokens.length == 0
     end
 
   end
