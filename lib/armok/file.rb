@@ -7,7 +7,12 @@ module Armok
     include Collection
     attr_accessor :filename, :name, :comment, :type, :items
 
-    def initialize(s='')
+    def initialize(s='', filename='', name='', comment='', type='', items=nil)
+      @filename = filename
+      @name = name
+      @comment = comment
+      @type = type
+      @items = items
       parse(s) unless s.empty?
     end
 
@@ -23,14 +28,7 @@ module Armok
 
       @name, @comment, @type, s = Match.new(s, FILE).captures
       @items = Entities.new(s)
-
-      file = File.new
-      file.filename,
-      file.name,
-      file.comment,
-      file.type,
-      file.items = self.filename, self.name, self.comment, self.type, self.items
-      return file
+      File.new('', @filename, @name, @comment, @type, @items)
     end
 
     def to_s
