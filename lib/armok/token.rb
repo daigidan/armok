@@ -5,15 +5,16 @@ module Armok
   class Token
     attr_accessor :pre, :key, :values, :post
 
-    def initialize(s = '', pre = '', post = '')
-      @pre, @post = pre, post
+    def initialize(s = '', pre = '', key = '', values = [], post = '')
+      @pre = pre
+      @post = post
       parse(s) unless s.empty?
     end
 
     def parse(s)
       @values = s.split(COLON)
       @key = @values.shift
-      self
+      Token.new('', @pre, @key, @values, @post)
     end
 
     def to_s

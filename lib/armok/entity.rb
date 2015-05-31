@@ -19,7 +19,7 @@ module Armok
       s.scan(TOKENS).each do |pre, t, post|
         @items << Token.new(t, pre, post)
       end
-      self
+      clone
     end
 
     def to_s

@@ -8,14 +8,7 @@ module Armok
     include Collection
     attr_accessor :filename, :name, :comment, :type, :items
 
-    def initialize(s = '', clone = {})
-      unless clone.empty?
-        @filename = clone[:filename]
-        @name = clone[:name]
-        @comment = clone[:comment]
-        @type = clone[:type]
-        @items = clone[:items]
-      end
+    def initialize(s = '')
       parse(s) unless s.empty?
     end
 
@@ -28,13 +21,7 @@ module Armok
       strip_invalid_utf8_bytes(s)
       @name, @comment, @type, s = Match.new(s, FILE).captures
       @items = Entities.new(s)
-      File.new('',
-        filename: @filename,
-        name:     @name,
-        comment:  @comment,
-        type:     @type,
-        items:    @items
-      )
+      clone
     end
 
     def to_s

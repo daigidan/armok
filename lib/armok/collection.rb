@@ -28,5 +28,9 @@ module Armok
     def empty?
       @items.length == 0
     end
+
+    def clone
+      Marshal::load(Marshal.dump(self))
+    end
   end
 end

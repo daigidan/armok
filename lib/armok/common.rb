@@ -25,7 +25,7 @@ module Armok
 
     def initialize(s, regex)
       @captures = []
-      if match = s.match(regex)
+      if (match = s.match(regex))
         @captures = match.captures
       else
         fail(Armok::ParseError, "Could not parse: #{regex}")
