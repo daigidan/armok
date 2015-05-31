@@ -5,7 +5,7 @@ module Armok
   class Token
     attr_accessor :pre, :key, :values, :post
 
-    def initialize(s = '', pre = '', key = '', values = [], post = '')
+    def initialize(s = '', pre = '', post = '', key = '', values = [])
       @pre = pre
       @post = post
       parse(s) unless s.empty?
@@ -14,14 +14,14 @@ module Armok
     def parse(s)
       @values = s.split(COLON)
       @key = @values.shift
-      Token.new('', @pre, @key, @values, @post)
+      Token.new('', @pre, @post, @key, @values)
     end
 
     def to_s
       if @values.empty?
-        "#{pre}[#{key}]#{post}"
+        "#{@pre}[#{@key}]#{@post}"
       else
-        "#{pre}[#{[@key, @values].join(COLON)}]#{post}"
+        "#{@pre}[#{[@key, @values].join(COLON)}]#{@post}"
       end
     end
   end
