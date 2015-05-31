@@ -12,7 +12,6 @@ module Armok
     end
 
     def read(filename)
-      puts filename
       @filename = filename
       parse(::IO.binread(filename))
     end
