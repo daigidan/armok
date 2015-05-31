@@ -1,4 +1,7 @@
+#  A small Ruby library for working with the raw files of Dwarf Fortress.
 module Armok
+  VERSION = '0.1.0'
+
   # lexemes
   SPACE = '([^\[]*)'
   TAG = '([^:\]]+)'
@@ -6,7 +9,7 @@ module Armok
   RB = '\]'
   COLON = ':'
   NEWLINE = "\n"
-  BLANK_LINE = NEWLINE*2
+  BLANK_LINE = NEWLINE * 2
   FILENAME = '([a-zA-Z0-9_]+)'
   OBJECT = 'OBJECT:'
   TYPE = "#{SPACE}#{LB}#{OBJECT}#{TAG}#{RB}"
@@ -16,20 +19,20 @@ module Armok
   TOKEN = '([^\]]+)'
   TOKENS = /#{SPACE}#{LB}#{TOKEN}#{RB}#{SPACE}/m
 
+  # A utility for capturing values using regexps.
   class Match
     attr_accessor :captures
 
     def initialize(s, regex)
-      @captures = Array.new
+      @captures = []
       if match = s.match(regex)
         @captures = match.captures
       else
-        raise(Armok::ParseError, "Could not parse: #{regex}")
+        fail(Armok::ParseError, "Could not parse: #{regex}")
       end
     end
   end
 
   class ParseError < StandardError
   end
-
 end

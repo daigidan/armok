@@ -1,10 +1,11 @@
 require 'armok/common'
 
 module Armok
+  # The name and values for each raw token.
   class Token
     attr_accessor :pre, :key, :values, :post
 
-    def initialize(s='', pre='', post='')
+    def initialize(s = '', pre = '', post = '')
       @pre, @post = pre, post
       parse(s) unless s.empty?
     end
@@ -22,6 +23,5 @@ module Armok
         "#{pre}[#{[@key, @values].join(COLON)}]#{post}"
       end
     end
-
   end
 end

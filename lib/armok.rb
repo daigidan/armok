@@ -1,4 +1,3 @@
-require 'armok/version'
 require 'armok/common'
 require 'armok/collection'
 require 'armok/token'
