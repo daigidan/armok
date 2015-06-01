@@ -31,14 +31,14 @@ module Armok
       @items.each_with_index.map { |item, i| symbolize(item.key + "_#{i}") }
     end
 
-    def [](i)
-      if i.is_a?(Symbol)
-        index = Match.capture(i.to_s, /^\w+_(\d+)$/)
+    def [](x)
+      if x.is_a?(Symbol)
+        index = Match.capture(x.to_s, /^\w+_(\d+)$/)
         @items[index.to_i]
-      elsif i.is_a?(String)
-        @items[@items.index { |item| [item.key, item.values].join(COLON) == i }]
+      elsif x.is_a?(String)
+        @items[@items.index { |item| [item.key, item.values].join(COLON) == x }]
       else
-        @items[i]
+        @items[x]
       end
     end
   end

@@ -29,20 +29,20 @@ module Armok
       @items.map { |item| symbolize(item.key) }
     end
 
-    def [](i)
-      if i.is_a?(Symbol)
-        s = @items.index { |item| symbolize(item.key) == i }
+    def [](x)
+      if x.is_a?(Symbol)
+        s = @items.index { |item| symbolize(item.key) == x }
         @items[s] if s
-      elsif i.is_a?(String)
-        s = @items.index { |item| item.key == i }
+      elsif x.is_a?(String)
+        s = @items.index { |item| item.key == x }
         @items[s] if s
       else
-        @items[i]
+        @items[x]
       end
     end
 
-    def []=(i, value)
-      @items[i] = value
+    def []=(x, value)
+      @items[x] = value
     end
 
     def length
