@@ -173,14 +173,13 @@ language_words
 
 EOF
 
-  p = Armok::File.new
-  o = p.parse(s)
-  o1 = p.parse(s1)
-  o2 = p.parse(s2)
-  o3 = p.parse(s3)
+  o = Armok::File.parse(s)
+  o1 = Armok::File.parse(s1)
+  o2 = Armok::File.parse(s2)
+  o3 = Armok::File.parse(s3)
 
   it 'gets embedded filename' do
-    expect(o.name).to eq('item_armor')
+    expect(o.key).to eq('item_armor')
   end
 
   it 'gets object type' do
@@ -197,7 +196,7 @@ EOF
   end
 
   it 'gets entity' do
-    expect(o[0].id).to eq('ITEM_ARMOR_BREASTPLATE')
+    expect(o[0].key).to eq('ITEM_ARMOR_BREASTPLATE')
   end
 
   it 'gets tokens' do
@@ -221,7 +220,7 @@ EOF
   it 'strips invalid UTF-8 bytes' do
     invalid = "hello_world\n\n[OBJECT:hello]\n\n[SOME\255:VALUE]\n[K:V]".force_encoding('UTF-8')
     valid = "hello_world\n\n[OBJECT:hello]\n\n[SOME:VALUE]\n[K:V]".force_encoding('UTF-8')
-    expect(p.parse(invalid).to_s).to eq(valid)
+    expect(Armok::File.parse(invalid).to_s).to eq(valid)
   end
 
   it 'parses definitions with no tokens' do
