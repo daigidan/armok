@@ -9,12 +9,14 @@ module Armok
     attr_accessor :comment, :subtype, :items
 
     def self.parse(s)
-      Entities.new(s)
+      new(s)
     end
 
-    def initialize(s = '')
+    private_class_method :new
+
+    def initialize(s)
       @items = []
-      return if s.empty?
+      return if s.nil?
 
       # sniff subtype for use as an entity delimeter
       @comment, @subtype = Match.capture(s, SUBTYPE)
@@ -22,7 +24,7 @@ module Armok
       # find each entity's key
       s.scan(/#{subtype_re}#{TAG}#{RB}/m).flatten.each do |key|
         next unless (tokens = find_tokens(key, s))
-        @items << Entity.new(key, @subtype, tokens)
+        @items << Entity.parse(tokens, key, @subtype)
       end
     end
 

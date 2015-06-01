@@ -9,16 +9,18 @@ module Armok
     attr_accessor :key, :items
 
     def self.read(dir)
-      Dir.new(dir)
+      new(dir)
     end
 
-    def initialize(dir = '')
-      @items  = []
-      return if dir.empty?
+    private_class_method :new
 
-      @key = dir
+    def initialize(s)
+      @items  = []
+      @key = s
+      return if s.nil?
+
       # break out of namespace below for core modules
-      ::Dir.glob(::File.join(dir, '*.txt')).each do |filename|
+      ::Dir.glob(::File.join(s, '*.txt')).each do |filename|
         begin
           @items << File.read(filename)
         rescue Armok::ParseError => e

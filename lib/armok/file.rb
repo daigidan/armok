@@ -9,24 +9,20 @@ module Armok
     attr_accessor :key, :comment, :type, :items
 
     def self.read(filename)
-      File.new(::IO.binread(filename))
-    end
-
-    def self.strip_invalid_utf8_bytes!(s)
-      # force re-encoding to strip invalid UTF-8 bytes
-      s.encode!('UTF-16', undef: :replace, invalid: :replace, replace: '')
-      s.encode!('UTF-8')
+      new(::IO.binread(filename))
     end
 
     def self.parse(s)
-      File.new(s)
+      new(s)
     end
 
-    def initialize(s = '')
-      return if s.empty?
-      File.strip_invalid_utf8_bytes!(s)
+    private_class_method :new
+
+    def initialize(s)
+      return if s.nil?
+      strip_invalid_utf8_bytes!(s)
       @key, @comment, @type, s = Match.capture(s, FILE)
-      @items = Entities.new(s)
+      @items = Entities.parse(s)
     end
 
     def to_s

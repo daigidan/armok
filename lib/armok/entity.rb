@@ -8,18 +8,21 @@ module Armok
     include Collection
     attr_accessor :key, :subtype, :items
 
-    def self.parse(s)
-      Entity.new(s)
+    def self.parse(s, key, subtype)
+      entity = new(s)
+      entity.key = key
+      entity.subtype = subtype
+      entity
     end
 
-    def initialize(key = '', subtype = '', s = '')
-      @key = key
-      @subtype = subtype
+    private_class_method :new
+
+    def initialize(s)
       @items = []
-      return if s.empty?
+      return if s.nil?
 
       s.scan(TOKENS).each do |pre, t, post|
-        @items << Token.new(t, pre, post)
+        @items << Token.parse(t, pre, post)
       end
     end
 

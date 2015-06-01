@@ -1,6 +1,20 @@
 module Armok
   # A mixin for collections.
   module Collection
+    def normalize(s)
+      s.gsub(/[^a-zA-Z0-9_]/, '_').downcase
+    end
+
+    def symbolize(s)
+      normalize(s).to_sym
+    end
+
+    def strip_invalid_utf8_bytes!(s)
+      # force re-encoding to strip invalid UTF-8 bytes
+      s.encode!('UTF-16', undef: :replace, invalid: :replace, replace: '')
+      s.encode!('UTF-8')
+    end
+
     def each
       @items.each { |item| yield item }
     end
@@ -15,14 +29,6 @@ module Armok
 
     def index(&block)
       @items.index { |item| block.call(item)  }
-    end
-
-    def normalize(s)
-      s.gsub(/[^a-zA-Z0-9_]/, '_').downcase
-    end
-
-    def symbolize(s)
-      normalize(s).to_sym
     end
 
     def keys
