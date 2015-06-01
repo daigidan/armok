@@ -8,21 +8,22 @@ module Armok
     include Collection
     attr_accessor :comment, :subtype, :items
 
-    def initialize(s = '')
-      @items = []
-      parse(s) unless s.empty?
+    def self.parse(s)
+      Entities.new(s)
     end
 
-    def parse(s)
-      # sniff subtype for use as an entity delimeter
-      @comment, @subtype = Match.new(s, SUBTYPE).captures
+    def initialize(s = '')
+      @items = []
+      return if s.empty?
 
-      # find each entity's id
-      s.scan(/#{subtype_re}#{TAG}#{RB}/m).flatten.each do |id|
-        next unless (tokens = find_tokens(id, s))
-        @items << Entity.new(id, @subtype, tokens)
+      # sniff subtype for use as an entity delimeter
+      @comment, @subtype = Match.capture(s, SUBTYPE)
+
+      # find each entity's key
+      s.scan(/#{subtype_re}#{TAG}#{RB}/m).flatten.each do |key|
+        next unless (tokens = find_tokens(key, s))
+        @items << Entity.new(key, @subtype, tokens)
       end
-      clone
     end
 
     def to_s
@@ -31,12 +32,12 @@ module Armok
 
     private
 
-    def find_tokens(id, s)
+    def find_tokens(key, s)
       # find beginning of entity definition and split on it, after which
       # tokens[0] should hold stuff we don't care about (ie - either it's
       # whitespace from the beginning of the string or we've seen it already)
       # and tokens[1] should begin with the tokens we want.
-      tokens = s.split(/#{subtype_re}#{id}#{RB}/)
+      tokens = s.split(/#{subtype_re}#{key}#{RB}/)
       return if tokens.length < 2 || tokens[1].match(/\A\s*\Z/m)
 
       # now the string begins with the tokens we want, so we split

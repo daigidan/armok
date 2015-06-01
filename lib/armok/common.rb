@@ -21,12 +21,13 @@ module Armok
 
   # A utility for capturing values using regexps.
   class Match
-    attr_accessor :captures
-
-    def initialize(s, regex)
-      @captures = []
+    def self.capture(s, regex)
       if (match = s.match(regex))
-        @captures = match.captures
+        if match.captures.length > 1
+          match.captures
+        else
+          match.captures[0]
+        end
       else
         fail(Armok::ParseError, "Could not parse: #{regex}")
       end
