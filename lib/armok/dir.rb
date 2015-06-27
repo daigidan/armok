@@ -19,7 +19,7 @@ module Armok
       @key = s
       return if s.nil?
 
-      # break out of namespace below for core modules
+      # break out of namespace on line below for core modules
       ::Dir.glob(::File.join(s, '*.txt')).each do |filename|
         begin
           @items << File.read(filename)

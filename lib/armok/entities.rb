@@ -22,7 +22,7 @@ module Armok
       @comment, @subtype = Match.capture(s, SUBTYPE)
 
       # find each entity's key
-      s.scan(/#{subtype_re}#{TAG}#{RB}/m).flatten.each do |key|
+      s.scan(/#{LB}#{@subtype}:#{TAG}#{RB}/m).flatten.each do |key|
         next unless (tokens = find_tokens(key, s))
         @items << Entity.parse(tokens, key, @subtype)
       end
@@ -47,10 +47,6 @@ module Armok
       # tokens[0] should hold just the tokens we want
       tokens = tokens[1].split(/#{subtype_re}/)
       tokens[0]
-    end
-
-    def subtype_re
-      "#{LB}#{@subtype}:"
     end
   end
 end

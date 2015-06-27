@@ -10,15 +10,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'armok/version'
+require 'armok'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'armok'
-  spec.version       = Armok::VERSION
-  spec.author        = 'Sean Evans'
-  spec.email         = 'daigidan@gmail.com'
-  spec.summary       = 'A small library for working with the raw files of Dwarf Fortress.'
-  spec.description   = <<-EOF
+  spec.name        = 'armok'
+  spec.version     = Armok::VERSION
+  spec.author      = 'Sean Evans'
+  spec.email       = 'daigidan@gmail.com'
+  spec.summary     = 'A small library for working with the raw files of Dwarf Fortress.'
+  spec.description = <<-EOF
     Armok commands and creation is shaped!
     This library parses and modifies Dwarf Fortress' raw files for modding purposes.
   EOF
@@ -31,7 +31,5 @@ Gem::Specification.new do |spec|
   spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.9'
-  spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
 end

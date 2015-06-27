@@ -35,14 +35,9 @@ module Armok
     end
 
     def [](x)
-      if x.is_a?(Symbol)
-        index = Match.capture(x.to_s, /^\w+_(\d+)$/)
-        @items[index.to_i]
-      elsif x.is_a?(String)
-        @items[@items.index { |item| [item.key, item.values].join(COLON) == x }]
-      else
-        @items[x]
-      end
+      x = Match.capture(x.to_s, /^\w+_(\d+)$/).to_i if x.is_a?(Symbol)
+      x = @items.index { |item| [item.key, item.values].join(COLON) == x } if x.is_a?(String)
+      @items[x] if x
     end
   end
 end

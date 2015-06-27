@@ -1,8 +1,10 @@
 module Armok
   # A mixin for collections.
   module Collection
+    include Enumerable
+
     def normalize(s)
-      s.gsub(/[^a-zA-Z0-9_]/, '_').downcase
+      s.gsub(/\W/, '_').downcase
     end
 
     def symbolize(s)
@@ -19,14 +21,6 @@ module Armok
       @items.each { |item| yield item }
     end
 
-    def map(&block)
-      result = []
-      each do |item|
-        result << block.call(item)
-      end
-      result
-    end
-
     def index(&block)
       @items.index { |item| block.call(item)  }
     end
@@ -37,14 +31,11 @@ module Armok
 
     def [](x)
       if x.is_a?(Symbol)
-        s = @items.index { |item| symbolize(item.key) == x }
-        @items[s] if s
+        x = @items.index { |item| symbolize(item.key) == x }
       elsif x.is_a?(String)
-        s = @items.index { |item| item.key == x }
-        @items[s] if s
-      else
-        @items[x]
+        x = @items.index { |item| item.key == x }
       end
+      @items[x] if x
     end
 
     def []=(x, value)
