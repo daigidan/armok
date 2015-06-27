@@ -1,6 +1,6 @@
 require 'armok/common'
 require 'armok/collection'
-require 'armok/entities'
+require 'armok/objects'
 
 module Armok
   # Represents a single raw file.
@@ -22,7 +22,7 @@ module Armok
       return if s.nil?
       strip_invalid_utf8_bytes!(s)
       @key, @comment, @type, s = Match.capture(s, FILE)
-      @items = Entities.parse(s)
+      @items = Objects.parse(s)
     end
 
     def to_s

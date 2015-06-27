@@ -11,10 +11,12 @@ module Armok
   FILENAME = '([a-zA-Z0-9_]+)'
   OBJECT = 'OBJECT:'
   TYPE = "#{SPACE}#{LB}#{OBJECT}#{TAG}#{RB}"
-  ENTITIES = '(.*)'
-  FILE = /^#{FILENAME}#{TYPE}#{ENTITIES}$/m
-  SUBTYPE = /^#{SPACE}#{LB}#{TAG}#{COLON}/m
+  OBJECTS = '(.*)'
   TOKEN = '([^\]]+)'
+
+  # regexps
+  FILE = /^#{FILENAME}#{TYPE}#{OBJECTS}$/m
+  SUBTYPE = /^#{SPACE}#{LB}#{TAG}#{COLON}/m
   TOKENS = /#{SPACE}#{LB}#{TOKEN}#{RB}#{SPACE}/m
 
   # Utility for capturing values using regexps.

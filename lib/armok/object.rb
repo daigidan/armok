@@ -4,15 +4,15 @@ require 'armok/token'
 
 module Armok
   # Represents the definition of a creature, building, item, etc.
-  class Entity
+  class Object
     include Collection
     attr_accessor :key, :subtype, :items
 
     def self.parse(s, key, subtype)
-      entity = new(s)
-      entity.key = key
-      entity.subtype = subtype
-      entity
+      object = new(s)
+      object.key = key
+      object.subtype = subtype
+      object
     end
 
     private_class_method :new

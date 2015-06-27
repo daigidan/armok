@@ -21,7 +21,7 @@ describe Armok::File do
     end
 
     it 'gets entities' do
-      expect(@file.items).to be_an(Armok::Entities)
+      expect(@file.items).to be_an(Armok::Objects)
     end
   end
 
